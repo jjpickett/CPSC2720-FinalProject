@@ -41,5 +41,5 @@ install:
 ifeq ($(shell lsb_release -si), Ubuntu)
 	sudo apt-get install libsdl2-dev libsdl2-image-dev
 else 
-	sudo yum install libsdl2-dev libsdl2-image-dev
+	sudo yum install SDL2-devel SDL2_image
 endif
