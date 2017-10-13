@@ -1,15 +1,18 @@
+## sudo apt-get install libsdl2-dev
+## sudo apt-get install libsdl2-image-dev
+
 ## definitions
 
 CC = g++
-SDL_LIB = -L/usr/local/lib -lSDL2 -Wl,-rpath=/usr/local/lib
+SDL_LIB = -L/usr/local/lib -lSDL2 -lSDL2_image -Wl,-rpath=/usr/local/lib
 SDL_INCLUDE = -I/usr/local/include
 CCFLAGS = -std=c++11 -Wall $(SDL_INCLUDE)
 LDFLAGS = $(SDL_LIB)
-OBJS1 = main.o 
+OBJS1 = main.o Game.o
 
 ## targets and prerequisites
 .PHONY : all
-all : main
+all : install main
 main : $(OBJS1)
 	$(CC) $^ $(LDFLAGS) -o $@
 
@@ -33,3 +36,7 @@ clean :                 ## next lines must begin with a TAB
 .PHONY : clean-all
 clean-all : clean      ## next line must begin with a TAB
 	rm -f main
+
+install:
+	sudo apt-get install libsdl2-dev
+	sudo apt-get install libsdl2-image-dev

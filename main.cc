@@ -1,48 +1,38 @@
-#include <iostream>
-#include <SDL2/SDL.h>
+//Using SDL and standard IO
+#include "Game.h"
 
-SDL_Window* g_pWindow = 0;
-SDL_Renderer* g_pRenderer = 0;
-
+Game *game = nullptr;
 int main(int argc, char* args[])
 {
-  // initialize SDL
-  if(SDL_Init(SDL_INIT_EVERYTHING) >= 0)
-  {
-    // if succeeded create our window
-    g_pWindow = SDL_CreateWindow("Chapter 1: Setting up SDL", 
-    SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-    640, 480, 
-    SDL_WINDOW_SHOWN);
+	const int FPS = 60;
+	const int frameDelay = 1000 / FPS;
 
-    // if the window creation succeeded create our renderer
-    if(g_pWindow != 0)
-    {
-      g_pRenderer = SDL_CreateRenderer(g_pWindow, -1, 0);
-    }
-  }
-  else
-  {
-    return 1; // sdl could not initialize
-  }
+	Uint32 frameStart;
+	int frameTime;
 
-  // everything succeeded lets draw the window
+	game = new Game();
+	game->init("Hearthstone Redux", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, false);
 
-  // set to black // This function expects Red, Green, Blue and 
-  //  Alpha as color values
-  SDL_SetRenderDrawColor(g_pRenderer, 0, 0, 0, 255);
+	while (game->running())
+	{
 
-  // clear the window to black
-  SDL_RenderClear(g_pRenderer);
+		frameStart = SDL_GetTicks();
 
-  // show the window
-  SDL_RenderPresent(g_pRenderer);
 
-  // set a delay before quitting
-  SDL_Delay(5000);
 
-  // clean up SDL
-  SDL_Quit();
+		game->eventHandler();
+		game->update();
+		game->render();
 
-  return 0;
+		frameTime = SDL_GetTicks() - frameStart;
+
+		if (frameDelay > frameTime)
+		{
+			SDL_Delay(frameDelay - frameTime);
+		}
+	}
+
+	game->clean();
+
+	return 0;
 }

@@ -1,1 +1,2 @@
-main.o: main.cc
+main.o: main.cc Game.h
+Game.o: Game.cc Game.h
