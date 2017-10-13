@@ -1,2 +1,0 @@
-main.o: main.cc Game.h
-Game.o: Game.cc Game.h
