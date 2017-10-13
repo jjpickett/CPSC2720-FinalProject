@@ -38,4 +38,8 @@ clean-all : clean      ## next line must begin with a TAB
 	rm -f main
 
 install:
+ifeq ($(shell lsb_release -si), Ubuntu)
 	sudo apt-get install libsdl2-dev libsdl2-image-dev
+else 
+	sudo yum install libsdl2-dev libsdl2-image-dev
+endif
